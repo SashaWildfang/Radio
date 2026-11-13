@@ -4,7 +4,11 @@ A lobby radio for Paper servers. It plays note block songs (`.nbs`) for each pla
 
 **Built by Sasha Wildfang for Fractal Network.**
 
-![Paper](https://img.shields.io/badge/Paper-1.21.11%2B-8E2DE2) ![Java](https://img.shields.io/badge/Java-21-B266FF) ![Songs](https://img.shields.io/badge/songs-366-E58BFF)
+![Paper](https://img.shields.io/badge/Paper-1.21.11%2B-8E2DE2) ![Java](https://img.shields.io/badge/Java-21-B266FF) ![Songs](https://img.shields.io/badge/songs-366-E58BFF) [![Release](https://img.shields.io/github/v/release/SashaWildfang/Radio?color=8E2DE2)](https://github.com/SashaWildfang/Radio/releases/latest)
+
+## Download
+
+Get the latest `Radio-<version>.jar` from the **[Releases page](https://github.com/SashaWildfang/Radio/releases/latest)**, drop it into your server's `plugins/` folder and restart. Songs download automatically on first start.
 
 ## Features
 
@@ -62,7 +66,7 @@ These need PlaceholderAPI: `%radio_title%`, `%radio_artist%`, `%radio_category%`
 
 ## Setup
 
-1. Drop `Radio-<version>.jar` into `plugins/` and start the server.
+1. Download `Radio-<version>.jar` from [Releases](https://github.com/SashaWildfang/Radio/releases/latest), drop it into `plugins/` and start the server.
 2. Songs download into `plugins/Radio/songs/` automatically. To add your own, put `.nbs` files in a category folder, e.g. `songs/Christmas/`, and run `/radio reload`.
 3. Change behaviour in `config.yml` and text or colours in `messages.yml`, then run `/radio reload`.
 
