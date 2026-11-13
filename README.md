@@ -17,8 +17,8 @@ Get the latest `Radio-<version>.jar` from the **[Releases page](https://github.c
 - **Personal radios**: play, pause, skip, previous, shuffle, repeat and volume for every player
 - **GUI**: categories, favorites, search, sorting, paging, live progress and "up next"
 - **Categories**: each folder in `songs/` becomes a category
-- **Queue**: right-click a song to play it next
-- **Favorites**: shift-click a song to star it, then browse your favorites
+- **Up next**: Right-click a song to play it next
+- **Favorites**: Shift + Left-click a song to star it, then browse your favorites
 - **Lobby station**: a shared, always-on radio everyone can tune in to
 - **Listen together**: `/listenwith <player>` lets you hear another player's radio
 - **Now-playing bar**: song and progress as a boss bar or action bar, chosen per player

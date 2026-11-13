@@ -63,16 +63,29 @@ public final class Messages {
     public static Messages load(JavaPlugin plugin) {
         File file = new File(plugin.getDataFolder(), "messages.yml");
         if (!file.exists()) plugin.saveResource("messages.yml", false);
-        YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
+
+        YamlConfiguration defaults = null;
         try (InputStream in = plugin.getResource("messages.yml")) {
             if (in != null) {
                 try (Reader reader = new InputStreamReader(in, StandardCharsets.UTF_8)) {
-                    yaml.setDefaults(YamlConfiguration.loadConfiguration(reader));
+                    defaults = YamlConfiguration.loadConfiguration(reader);
                 }
             }
         } catch (Exception e) {
             plugin.getLogger().warning("Could not read the default messages.yml: " + e.getMessage());
         }
+
+        YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
+        // A newer plugin version ships new text: keep the server's old file as a backup and use the new one.
+        if (defaults != null && yaml.getInt("messages-version", 1) < defaults.getInt("messages-version", 1)) {
+            File backup = new File(plugin.getDataFolder(), "messages.yml.old");
+            if (file.renameTo(backup) || (backup.delete() && file.renameTo(backup))) {
+                plugin.saveResource("messages.yml", true);
+                yaml = YamlConfiguration.loadConfiguration(file);
+                plugin.getLogger().info("Updated messages.yml to the new version. Your previous file is saved as messages.yml.old.");
+            }
+        }
+        if (defaults != null) yaml.setDefaults(defaults);
         return new Messages(yaml, plugin.getLogger());
     }
 

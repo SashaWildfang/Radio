@@ -166,10 +166,12 @@ public final class RadioMenu implements InventoryHolder {
         }
 
         if (state.page > 0) {
-            inventory.setItem(PAGE_BACK, item(Material.SPECTRAL_ARROW, plugin.messages().item("gui.page-back.name", pageArgs(state.page, pages)), List.of(), false));
+            inventory.setItem(PAGE_BACK, item(Material.SPECTRAL_ARROW, plugin.messages().item("gui.page-back.name", pageArgs(state.page + 1, pages)),
+                    plugin.messages().lore("gui.page-back.lore", pageArgs(state.page + 1, pages)), false));
         }
         if (state.page < pages - 1) {
-            inventory.setItem(PAGE_NEXT, item(Material.SPECTRAL_ARROW, plugin.messages().item("gui.page-next.name", pageArgs(state.page + 2, pages)), List.of(), false));
+            inventory.setItem(PAGE_NEXT, item(Material.SPECTRAL_ARROW, plugin.messages().item("gui.page-next.name", pageArgs(state.page + 1, pages)),
+                    plugin.messages().lore("gui.page-next.lore", pageArgs(state.page + 1, pages)), false));
         }
 
         renderHeader(player, own, audible);
@@ -306,7 +308,8 @@ public final class RadioMenu implements InventoryHolder {
             TagResolver args = TagResolver.resolver(Format.song(song),
                     Messages.arg("badges", Component.join(net.kyori.adventure.text.JoinConfiguration.separator(Component.text(" · ")), badges)));
             boolean playing = current != null && current.id().equals(song.id());
-            return disc(song, m.item("gui.song.name", args), m.lore("gui.song.lore", args), playing);
+            String lore = own.settings().isFavorite(song.id()) ? "gui.song.lore-favorite" : "gui.song.lore";
+            return disc(song, m.item("gui.song.name", args), m.lore(lore, args), playing);
         }
         if (entry instanceof Integer index) {
             Song song = own.queue().get(index);
@@ -380,7 +383,7 @@ public final class RadioMenu implements InventoryHolder {
             }
             case NOW_PLAYING -> {
                 Song song = sessions.audibleSession(player).current();
-                if (!click.isShiftClick() || song == null) return;
+                if (click != ClickType.SHIFT_LEFT || song == null) return;
                 toggleFavorite(player, own, song);
             }
             case QUEUE -> {
@@ -451,7 +454,8 @@ public final class RadioMenu implements InventoryHolder {
     private boolean clickEntry(Player player, RadioSession own, Object entry, ClickType click) {
         Messages m = plugin.messages();
         if (entry instanceof Song song) {
-            if (click.isShiftClick()) {
+            // Shift + Left-click favorites, Right-click (with or without Shift) plays it next, Left-click plays now.
+            if (click == ClickType.SHIFT_LEFT) {
                 toggleFavorite(player, own, song);
             } else if (click.isRightClick()) {
                 int position = own.enqueue(song);
@@ -464,6 +468,7 @@ public final class RadioMenu implements InventoryHolder {
             return true;
         }
         if (entry instanceof Integer index) {
+            if (click != ClickType.LEFT) return false;
             Song removed = own.removeFromQueue(index);
             if (removed != null) m.send(player, "queue.removed", Format.song(removed));
             return removed != null;
