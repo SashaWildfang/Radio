@@ -1,0 +1,343 @@
+# ┌──────────────────────────────────────────────────────────────┐
+# │                       Radio · messages                       │
+# │       Built by Sasha Wildfang for Fractal Network.           │
+# └──────────────────────────────────────────────────────────────┘
+#
+#  Text uses MiniMessage: https://docs.advntr.dev/minimessage/format
+#  Leave a chat message empty ("") to turn it off.
+#
+#  Theme tags work everywhere in this file:
+#    <primary> <secondary> <accent> <muted> <good> <bad>
+#    <brand>text</brand>   - the theme gradient
+#    <prefix>              - the prefix below
+#
+#  Placeholders like <title> are filled in by the plugin. Each message
+#  lists the ones it supports.
+#
+#  Resource packs can turn symbols into images (servers often map
+#  characters like ♫ to menu art). If a symbol shows up as a picture,
+#  that symbol is used by your pack: replace it here.
+
+theme:
+  primary: "#B266FF"
+  secondary: "#E3C4FF"
+  accent: "#FF7BE5"
+  muted: "#9C8DB8"
+  good: "#9BFFC4"
+  bad: "#FF7590"
+  gradient: ["#8E2DE2", "#E58BFF"]
+
+prefix: "<brand><bold>Radio</bold></brand> <dark_gray>»</dark_gray> "
+
+format:
+  "on": "<good>on"
+  "off": "<bad>off"
+  # Progress bars in the GUI and boss/action bar.
+  progress-filled: "<primary>▰"
+  progress-empty: "<dark_gray>▱"
+  progress-length: 14
+
+
+# ── Chat ────────────────────────────────────────────────────────
+
+general:
+  players-only: "<prefix><bad>Only players can do that."
+  unknown-command: "<prefix><bad>Unknown command. Try <white>/radio help</white>."
+  no-songs: "<prefix><bad>No songs are loaded yet."
+  player-not-found: "<prefix><bad><white><name></white> isn't online."   # <name>
+  world-disabled: "<prefix><muted>The radio is off in this world."
+  help-header: "<brand><bold>Radio</bold></brand> <muted>v<version> · by Sasha Wildfang for Fractal Network"   # <version>
+  help-line: " <primary>/<command><secondary><usage></secondary> <dark_gray>- <muted><description>"   # <command> <usage> <description>
+
+# Descriptions shown by /radio help.
+help:
+  menu: "Open the radio"
+  play: "Play a song, or resume"
+  pause: "Pause your radio"
+  resume: "Resume your radio"
+  skip: "Skip to the next song"
+  previous: "Go back a song"
+  next: "Show what plays next"
+  nowplaying: "Show the current song"
+  queue: "Show your queue, add a song, or clear it"
+  favorite: "Favorite the current song"
+  search: "Search songs in the menu"
+  shuffle: "Toggle shuffle"
+  repeat: "Toggle repeating the song"
+  volume: "Show or set your volume"
+  bar: "Change the now-playing bar"
+  station: "Tune in to the lobby station"
+  listenwith: "Listen along with a player"
+  stoplistening: "Go back to your own radio"
+  reload: "Reload config, messages and songs"
+  download: "Sync songs with the repository"
+
+playback:
+  # <title> <artist> <length> <category>
+  now-playing: "<prefix><muted>Now playing <brand><title></brand> <muted>by <secondary><artist>"
+  paused: "<prefix><secondary>Paused. <muted>Use <primary>/resume</primary> to carry on."
+  resumed: "<prefix><secondary>Resumed."
+  already-paused: "<prefix><muted>Your radio is already paused."
+  already-playing: "<prefix><muted>Your radio is already playing."
+  nothing-playing: "<prefix><bad>Nothing is playing."
+  shuffle: "<prefix><secondary>Shuffle is now <state>."   # <state>
+  repeat: "<prefix><secondary>Repeat is now <state>."     # <state>
+  volume-current: "<prefix><secondary>Your volume is <primary><volume>%</primary>."   # <volume>
+  volume-set: "<prefix><secondary>Volume set to <primary><volume>%</primary>."        # <volume>
+  volume-invalid: "<prefix><bad>Volume must be a number from 0 to 100."
+  up-next: "<prefix><muted>Up next: <secondary><title></secondary> by <artist>"   # <title> <artist>
+  song-not-found: "<prefix><bad>No song matches <white><query></white>."          # <query>
+  song-ambiguous: "<prefix><bad><count> songs match: <white><songs></white>. Be more specific."   # <count> <songs>
+  usage-toggle: "<prefix><bad>Usage: <white>/<command> [on|off]"   # <command>
+  # /songinfo. <title> <artist> <category> <elapsed> <length> <bar> <state>
+  info:
+    - "<prefix><brand><title></brand> <muted>by <secondary><artist></secondary> <dark_gray>· <muted><category>"
+    - "<prefix><bar> <muted><elapsed> / <length> <state>"
+  info-paused: "<bad>(paused)"
+  info-listening: "<prefix><muted>You're listening with <secondary><name></secondary>."   # <name>
+
+queue:
+  added: "<prefix><secondary>Added <primary><title></primary> to your queue <muted>(#<position>)."   # <title> <position>
+  full: "<prefix><bad>Your queue is full (<limit> songs)."   # <limit>
+  removed: "<prefix><secondary>Removed <primary><title></primary> from your queue."   # <title>
+  cleared: "<prefix><secondary>Cleared your queue."
+  empty: "<prefix><muted>Your queue is empty. Right-click a song in <primary>/radio</primary> to add one."
+  header: "<prefix><secondary>Your queue <muted>(<count>)</muted>:"   # <count>
+  line: " <muted><position>. <secondary><title></secondary> <dark_gray>- <muted><artist>"   # <position> <title> <artist>
+
+favorites:
+  added: "<prefix><secondary>Added <primary><title></primary> to your favorites <accent>★"   # <title>
+  removed: "<prefix><secondary>Removed <primary><title></primary> from your favorites."   # <title>
+
+listen:
+  started: "<prefix><secondary>Now listening with <primary><name></primary>. <muted>/stoplistening to leave"   # <name>
+  joined-their-host: "<prefix><secondary><target> is listening with <primary><name></primary>, so you joined them too."   # <target> <name>
+  notify-host: "<prefix><primary><name></primary> <secondary>is now listening with you."   # <name>
+  already: "<prefix><muted>You're already listening with <name>."   # <name>
+  self: "<prefix><bad>You can't listen with yourself."
+  has-listeners: "<prefix><bad>Others are listening with you, so you can't listen with someone else."
+  stopped: "<prefix><secondary>Back on your own radio."
+  notify-host-stopped: "<prefix><muted><name> stopped listening with you."   # <name>
+  host-left: "<prefix><muted><name> left, so you're back on your own radio."   # <name>
+  not-listening: "<prefix><bad>You're not listening with anyone."
+  blocked: "<prefix><bad>You're listening with <name>. <muted>Use <primary>/stoplistening</primary> first."   # <name>
+
+station:
+  # Shown wherever the station is named.
+  name: "<brand>Lobby FM</brand>"
+  joined: "<prefix><secondary>Tuned in to <name>. <muted>/radio station leave to go back"   # <name>
+  left: "<prefix><secondary>Left <name>. Back on your own radio."   # <name>
+  disabled: "<prefix><bad>The lobby station is turned off."
+  skipped: "<prefix><secondary>Skipped the station to the next song."
+
+search:
+  prompt: "<prefix><secondary>Type a song or artist in chat. <muted>Type <primary>cancel</primary> to go back."
+  cancelled: "<prefix><muted>Search cancelled."
+  timed-out: "<prefix><muted>Search timed out."
+
+bar:
+  changed: "<prefix><secondary>Now-playing bar: <primary><mode></primary>."   # <mode>
+  modes:
+    bossbar: "boss bar"
+    actionbar: "action bar"
+    "off": "off"
+  # Boss bar / action bar text. <title> <artist> <elapsed> <length> <bar> <source>
+  # <source> is empty on your own radio, or the station/player name when listening along.
+  playing: "<secondary><title></secondary> <muted>· <artist> <dark_gray>|</dark_gray> <muted><elapsed> / <length></muted><source>"
+  paused: "<muted>⏸ <title> <dark_gray>|</dark_gray> <muted>paused<source>"
+  source: " <dark_gray>|</dark_gray> <primary><name>"   # <name>
+
+admin:
+  reloaded: "<prefix><good>Reloaded the config, messages and <white><count></white> songs."   # <count>
+  download-started: "<prefix><secondary>Checking the song repository…"
+  download-finished: "<prefix><good>Songs up to date. <muted><new> new, <updated> updated, <removed> removed, <failed> failed, <total> in the repository."   # <new> <updated> <removed> <failed> <total>
+  download-failed: "<prefix><bad>Couldn't download songs: <white><error>"   # <error>
+  download-disabled: "<prefix><bad>Downloads are turned off in config.yml."
+
+
+# ── GUI ─────────────────────────────────────────────────────────
+# Item names are single lines; lore entries are lists. A lore line that
+# only holds a placeholder disappears when that placeholder is empty.
+
+gui:
+  # <view> is one of the view names below.
+  title: "<brand><bold>Radio</bold></brand> <dark_gray>· <view>"
+  views:
+    all: "All songs"
+    favorites: "Favorites"
+    category: "<category>"
+    search: "\"<query>\""
+    queue: "Queue"
+    categories: "Categories"
+
+  sort-modes:
+    NAME_AZ: "Title A-Z"
+    NAME_ZA: "Title Z-A"
+    ARTIST_AZ: "Artist A-Z"
+    ARTIST_ZA: "Artist Z-A"
+    SHORTEST: "Shortest first"
+    LONGEST: "Longest first"
+
+  # Songs in the grid. <title> <artist> <length> <category> <badges>
+  song:
+    name: "<secondary><title>"
+    lore:
+      - "<muted>Artist: <white><artist>"
+      - "<muted>Length: <white><length>"
+      - "<muted>Genre: <white><category>"
+      - "<badges>"
+      - ""
+      - "<accent>Click</accent> <muted>to play now"
+      - "<accent>Right-click</accent> <muted>to play next"
+      - "<accent>Shift-click</accent> <muted>to favorite"
+    badge-playing: "<good>▶ Now playing"
+    badge-favorite: "<accent>★ Favorite"
+    badge-queued: "<primary>#<position> in queue"   # <position>
+
+  # Songs in the queue view. Same placeholders plus <position>.
+  queued-song:
+    name: "<muted>#<position> <secondary><title>"
+    lore:
+      - "<muted>Artist: <white><artist>"
+      - "<muted>Length: <white><length>"
+      - ""
+      - "<accent>Click</accent> <muted>to remove"
+
+  # The big disc at the top. <title> <artist> <category> <elapsed> <length> <bar> <next> <source>
+  now-playing:
+    name: "<brand><title></brand>"
+    lore:
+      - "<muted>by <white><artist>"
+      - ""
+      - "<bar>"
+      - "<muted><elapsed> / <length>"
+      - ""
+      - "<muted>Up next: <white><next>"
+      - "<source>"
+      - ""
+      - "<accent>Shift-click</accent> <muted>to favorite"
+    source: "<muted>Listening with <primary><name>"   # <name>
+  nothing-playing:
+    name: "<muted>Nothing playing"
+    lore:
+      - "<muted>Pick a song below to start."
+
+  categories:
+    name: "<primary>Categories"
+    lore:
+      - "<muted>Browse songs by genre."
+      - "<muted>Showing: <white><view>"
+      - ""
+      - "<accent>Click</accent> <muted>to pick a category"
+  category:
+    # <category> <count>
+    name: "<secondary><category>"
+    lore:
+      - "<muted><count> songs"
+      - ""
+      - "<accent>Click</accent> <muted>to browse"
+  all-songs:
+    name: "<secondary>All songs"
+    lore:
+      - "<muted><count> songs"
+      - ""
+      - "<accent>Click</accent> <muted>to browse"
+  favorites:
+    name: "<accent>★ Favorites"
+    lore:
+      - "<muted><count> songs"
+      - ""
+      - "<accent>Click</accent> <muted>to show only your favorites"
+      - "<muted>Shift-click a song to favorite it."
+  search:
+    name: "<primary>Search"
+    lore:
+      - "<muted>Find a song or artist."
+      - "<query>"
+      - ""
+      - "<accent>Click</accent> <muted>to search"
+      - "<accent>Right-click</accent> <muted>to clear"
+    current: "<muted>Searching: <white>\"<query>\""   # <query>
+  queue:
+    name: "<primary>Queue <muted>(<count>)"
+    lore:
+      - "<muted>Songs you lined up to play next."
+      - ""
+      - "<accent>Click</accent> <muted>to view your queue"
+  queue-back:
+    name: "<primary>Back to songs"
+    lore:
+      - "<accent>Click</accent> <muted>to go back"
+      - "<accent>Right-click</accent> <muted>to clear the queue"
+  station:
+    # <name> <title> <listeners>
+    name: "<name>"
+    lore:
+      - "<muted>Lobby radio everyone can tune in to."
+      - "<muted>Playing: <white><title>"
+      - "<muted>Listeners: <white><listeners>"
+      - ""
+      - "<accent>Click</accent> <muted>to tune in"
+    lore-listening:
+      - "<muted>You're tuned in."
+      - "<muted>Playing: <white><title>"
+      - "<muted>Listeners: <white><listeners>"
+      - ""
+      - "<accent>Click</accent> <muted>to go back to your own radio"
+  sort:
+    name: "<primary>Sort: <white><mode>"   # <mode>
+    lore:
+      - "<options>"
+      - ""
+      - "<accent>Click</accent> <muted>to change"
+    option: "<dark_gray>• <muted><mode>"
+    option-selected: "<accent>» <white><mode>"
+
+  shuffle:
+    name: "<primary>Shuffle: <state>"   # <state>
+    lore:
+      - "<accent>Click</accent> <muted>to toggle"
+  previous:
+    name: "<primary>⏮ Previous"
+    lore:
+      - "<muted>Restarts the song, or goes back"
+      - "<muted>one if it only just started."
+  play:
+    name: "<good>▶ Play"
+    lore:
+      - "<accent>Click</accent> <muted>to play"
+  pause:
+    name: "<primary>⏸ Pause"
+    lore:
+      - "<accent>Click</accent> <muted>to pause"
+  skip:
+    name: "<primary>Skip ⏭"
+    lore:
+      - "<accent>Click</accent> <muted>to play the next song"
+  repeat:
+    name: "<primary>Repeat song: <state>"   # <state>
+    lore:
+      - "<accent>Click</accent> <muted>to toggle"
+  volume:
+    name: "<primary>Volume: <white><volume>%"   # <volume> <bar>
+    lore:
+      - "<bar>"
+      - ""
+      - "<accent>Click</accent> <muted>to turn up 10"
+      - "<accent>Right-click</accent> <muted>to turn down 10"
+      - "<accent>Shift-click</accent> <muted>to change by 1"
+  bar:
+    name: "<primary>Now-playing bar: <white><mode>"   # <mode>
+    lore:
+      - "<muted>Shows the song while it plays."
+      - ""
+      - "<accent>Click</accent> <muted>to switch"
+  page-back:
+    name: "<primary>« Page <page>"   # <page> <pages>
+  page-next:
+    name: "<primary>Page <page> »"   # <page> <pages>
+  empty:
+    name: "<muted>No songs here"
+    lore:
+      - "<muted>Try another category or search."
+  listening-blocked: "<prefix><bad>You're listening with <name>. Leave first to control your own radio."   # <name>

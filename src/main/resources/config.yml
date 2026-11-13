@@ -1,0 +1,129 @@
+# ┌──────────────────────────────────────────────────────────────┐
+# │                            Radio                             │
+# │        Note block music for your lobby, with a GUI.          │
+# │       Built by Sasha Wildfang for Fractal Network.           │
+# └──────────────────────────────────────────────────────────────┘
+#
+#  Songs live in plugins/Radio/songs/. Each subfolder is a category
+#  in the GUI (e.g. songs/Christmas/Jingle Bells.nbs).
+#  Every message and GUI label is in messages.yml.
+#  Apply changes with /radio reload.
+
+# Do not change. Used to upgrade this file in future versions.
+config-version: 1
+
+
+# ── Playback ────────────────────────────────────────────────────
+playback:
+  # Volume (0-100) players start with. A player's own choice is saved
+  # on the player and kept across rejoins.
+  default-volume: 20
+
+  # Whether shuffle starts on for players who have never changed it.
+  default-shuffle: true
+
+  # What happens when a player joins:
+  #   personal - start their own radio
+  #   station  - tune them in to the lobby station
+  #   none     - stay silent until they open /radio
+  on-join: personal
+
+  # Announce in chat when a new song starts on its own.
+  # Songs a player picks themselves are always announced.
+  announce-songs: true
+
+  # Spread notes left and right using the stereo panning saved in the song.
+  stereo: true
+
+  # Which client volume slider controls the music:
+  # MASTER, MUSIC, RECORDS, WEATHER, BLOCKS, HOSTILE, NEUTRAL, PLAYERS, AMBIENT, VOICE
+  # RECORDS is the "Jukebox/Note Blocks" slider.
+  sound-category: RECORDS
+
+  # Most songs a player can line up with "play next".
+  queue-limit: 50
+
+
+# ── Songs ───────────────────────────────────────────────────────
+# Name song files "Artist - Title.nbs"; that's what players see.
+songs:
+  # Songs shorter or longer than this (in seconds) are left out.
+  # 0 = no limit. Default: 1m 30s to 4m 30s.
+  min-length: 90
+  max-length: 270
+
+
+# ── Worlds ──────────────────────────────────────────────────────
+worlds:
+  # Worlds the radio plays in. Leave empty to play in every world.
+  # A personal radio pauses while its player is in another world and
+  # carries on when they come back.
+  # Example: [world, lobby]
+  enabled: []
+
+
+# ── Now playing bar ─────────────────────────────────────────────
+now-playing-bar:
+  # Shown while music plays. Players can switch their own with /radio bar.
+  #   bossbar   - a bar at the top with the song and its progress
+  #   actionbar - a line above the hotbar
+  #   off       - nothing
+  default: bossbar
+
+  # PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE
+  boss-bar-color: PURPLE
+
+  # PROGRESS, NOTCHED_6, NOTCHED_10, NOTCHED_12, NOTCHED_20
+  boss-bar-style: PROGRESS
+
+
+# ── Lobby station ───────────────────────────────────────────────
+# A shared radio that is always on. Everyone tuned in hears the same
+# song at the same moment. Its name is in messages.yml (station.name).
+station:
+  enabled: true
+
+  # Categories (song subfolder names) the station plays.
+  # Leave empty to play every song. Example: [Electronic, Games]
+  categories: []
+
+  shuffle: true
+
+
+# ── Song downloads ──────────────────────────────────────────────
+# Keeps plugins/Radio/songs/ in sync with the song repository:
+#  - songs added or changed in the repository are downloaded
+#  - songs removed from the repository are removed here too
+# Songs you put in the folder yourself are never touched or deleted.
+# Run /radio download to sync without a restart.
+downloads:
+  enabled: true
+
+  # Sync every time the server starts.
+  on-startup: true
+
+  # Base address of the song folder. It must contain index.json.
+  repository: https://raw.githubusercontent.com/SashaWildfang/Radio/main/songs/
+
+
+# ── GUI ─────────────────────────────────────────────────────────
+gui:
+  # Play a click sound when a button is pressed.
+  click-sound: true
+
+  # Icon for each category in the category picker. Any item name works:
+  # https://jd.papermc.io/paper/1.21.11/org/bukkit/Material.html
+  # Categories not listed here use "default".
+  category-icons:
+    default: NOTE_BLOCK
+    Anime: CHERRY_SAPLING
+    Anthems: WHITE_BANNER
+    Christmas: SNOWBALL
+    Classical & Jazz: BELL
+    Electronic: AMETHYST_CLUSTER
+    Games: DIAMOND_SWORD
+    Hip-Hop: GOLD_INGOT
+    Memes: SLIME_BALL
+    Pop: POPPED_CHORUS_FRUIT
+    Rock: ANVIL
+    TV & Film: PAINTING

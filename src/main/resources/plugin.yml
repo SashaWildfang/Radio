@@ -1,0 +1,23 @@
+name: Radio
+version: '${version}'
+main: com.sasha.radio.Radio
+api-version: '1.21.11'
+description: '${description}'
+authors: [Sasha Wildfang]
+softdepend: [PlaceholderAPI]
+
+# Commands are registered in code through Paper's command API (see RadioCommands).
+
+permissions:
+  radio.use:
+    description: Use the radio (GUI, playback, queue, favorites, search, volume, now-playing bar)
+    default: true
+  radio.listenwith:
+    description: Listen along with another player's radio
+    default: true
+  radio.station:
+    description: Tune in to the lobby station
+    default: true
+  radio.admin:
+    description: Reload, download songs and control the lobby station
+    default: op

@@ -1,0 +1,7 @@
+# Song files are binary: never convert line endings.
+*.nbs binary
+*.jar binary
+
+# Scripts keep the line endings their shell expects.
+gradlew text eol=lf
+*.bat text eol=crlf
