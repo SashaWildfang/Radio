@@ -91,7 +91,8 @@ station:
 
 
 # ── Song downloads ──────────────────────────────────────────────
-# Keeps plugins/Radio/songs/ in sync with the song repository:
+# Keeps plugins/Radio/songs/ in sync with the song library
+# (https://github.com/SashaWildfang/Radio-Songs):
 #  - songs added or changed in the repository are downloaded
 #  - songs removed from the repository are removed here too
 # Songs you put in the folder yourself are never touched or deleted.
@@ -103,7 +104,7 @@ downloads:
   on-startup: true
 
   # Base address of the song folder. It must contain index.json.
-  repository: https://raw.githubusercontent.com/SashaWildfang/Radio/main/songs/
+  repository: https://raw.githubusercontent.com/SashaWildfang/Radio-Songs/main/
 
 
 # ── GUI ─────────────────────────────────────────────────────────

@@ -45,6 +45,11 @@ public record RadioConfig(
 
     public enum OnJoin { PERSONAL, STATION, NONE }
 
+    /** Where the official song library lives. */
+    public static final String SONG_REPOSITORY = "https://raw.githubusercontent.com/SashaWildfang/Radio-Songs/main/";
+    /** Where it lived before 2.2.1, inside the plugin repository. */
+    private static final String OLD_SONG_REPOSITORY = "https://raw.githubusercontent.com/SashaWildfang/Radio/main/songs/";
+
     public boolean worldEnabled(World world) {
         return enabledWorlds.isEmpty() || enabledWorlds.contains(world.getName().toLowerCase(Locale.ROOT));
     }
@@ -64,6 +69,12 @@ public record RadioConfig(
 
         String repository = config.getString("downloads.repository", "").trim();
         if (!repository.isEmpty() && !repository.endsWith("/")) repository += "/";
+        // Songs moved out of the plugin repository in 2.2.1; servers still on the old address follow them.
+        if (repository.equals(OLD_SONG_REPOSITORY)) {
+            logger.info("The song library moved to " + SONG_REPOSITORY + " (using it automatically; "
+                    + "update downloads.repository in config.yml to hide this message).");
+            repository = SONG_REPOSITORY;
+        }
 
         Map<String, Material> icons = new HashMap<>();
         Material defaultIcon = Material.NOTE_BLOCK;

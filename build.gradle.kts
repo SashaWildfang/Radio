@@ -1,12 +1,10 @@
-import java.security.MessageDigest
-
 plugins {
     java
     id("xyz.jpenilla.run-paper") version "3.0.2"
 }
 
 group = "com.sasha"
-version = "2.2.0"
+version = "2.2.1"
 description = "Lobby radio for Fractal Network: note block (.nbs) songs with a GUI. Built by Sasha Wildfang."
 
 repositories {
@@ -47,30 +45,4 @@ tasks {
         minecraftVersion("1.21.11")
     }
 
-    /**
-     * Writes songs/index.json: every .nbs under songs/ with its size and SHA-1.
-     * The plugin downloads this list to know which songs to fetch. Run after adding or changing songs.
-     */
-    register("songIndex") {
-        group = "radio"
-        description = "Regenerates songs/index.json from the songs folder."
-        val songsDir = layout.projectDirectory.dir("songs").asFile
-        doLast {
-            val entries = songsDir.walkTopDown()
-                .filter { it.isFile && it.extension.equals("nbs", ignoreCase = true) }
-                .sortedBy { it.relativeTo(songsDir).invariantSeparatorsPath.lowercase() }
-                .map { file ->
-                    val sha1 = MessageDigest.getInstance("SHA-1").digest(file.readBytes())
-                        .joinToString("") { "%02x".format(it) }
-                    val path = file.relativeTo(songsDir).invariantSeparatorsPath
-                        .replace("\\", "\\\\").replace("\"", "\\\"")
-                    """    {"path": "$path", "size": ${file.length()}, "sha1": "$sha1"}"""
-                }
-                .toList()
-            songsDir.resolve("index.json").writeText(
-                "{\n  \"songs\": [\n" + entries.joinToString(",\n") + "\n  ]\n}\n"
-            )
-            println("Wrote ${entries.size} songs to songs/index.json")
-        }
-    }
 }
