@@ -50,14 +50,14 @@ public final class Messages {
         TagResolver colours = TagResolver.resolver(
                 colour("primary", logger), colour("secondary", logger), colour("accent", logger),
                 colour("muted", logger), colour("good", logger), colour("bad", logger));
-        Component prefix = MM.deserialize(brand(yaml.getString("prefix", "")), colours);
+        Component prefix = MM.deserialize(brand(text("prefix", "")), colours);
         this.theme = TagResolver.resolver(colours, Placeholder.component("prefix", prefix));
 
         this.on = component("format.on");
         this.off = component("format.off");
-        this.barFilled = brand(yaml.getString("format.progress-filled", "▰"));
-        this.barEmpty = brand(yaml.getString("format.progress-empty", "▱"));
-        this.barLength = Math.max(1, Math.min(60, yaml.getInt("format.progress-length", 14)));
+        this.barFilled = brand(text("format.progress-filled", "▰"));
+        this.barEmpty = brand(text("format.progress-empty", "▱"));
+        this.barLength = Math.max(1, Math.min(60, yaml.getInt("format.progress-length")));
     }
 
     public static Messages load(JavaPlugin plugin) {
@@ -85,8 +85,13 @@ public final class Messages {
                 plugin.getLogger().info("Updated messages.yml to the new version. Your previous file is saved as messages.yml.old.");
             }
         }
+        return of(yaml, defaults, plugin.getLogger());
+    }
+
+    /** Messages from a server's file, with the plugin's built-in file filling any gaps. */
+    static Messages of(YamlConfiguration yaml, YamlConfiguration defaults, Logger logger) {
         if (defaults != null) yaml.setDefaults(defaults);
-        return new Messages(yaml, plugin.getLogger());
+        return new Messages(yaml, logger);
     }
 
     // ---------------------------------------------------------------- chat
@@ -99,23 +104,23 @@ public final class Messages {
             }
             return;
         }
-        String template = yaml.getString(key, key);
+        String template = text(key, key);
         if (!template.isEmpty()) to.sendMessage(parse(template, args));
     }
 
     public Component component(String key, TagResolver... args) {
-        return parse(yaml.getString(key, key), args);
+        return parse(text(key, key), args);
     }
 
     public String raw(String key) {
-        return yaml.getString(key, key);
+        return text(key, key);
     }
 
     // ---------------------------------------------------------------- items
 
     /** A single line for an item name, without the default italics. */
     public Component item(String key, TagResolver... args) {
-        return parse("<!italic>" + yaml.getString(key, key), args);
+        return parse("<!italic>" + text(key, key), args);
     }
 
     /**
@@ -171,6 +176,16 @@ public final class Messages {
         return Placeholder.component(key, value);
     }
 
+    /**
+     * A string from messages.yml, falling back to the plugin's built-in messages.yml for keys the server's
+     * file doesn't have (e.g. added in a newer version), and only then to {@code fallback}.
+     * Note: Bukkit's {@code getString(path, def)} skips the built-in defaults, so it must not be used here.
+     */
+    private String text(String key, String fallback) {
+        String value = yaml.getString(key);
+        return value != null ? value : fallback;
+    }
+
     private Component parse(String template, TagResolver... args) {
         return MM.deserialize(brand(template), TagResolver.resolver(theme, TagResolver.resolver(args)));
     }
@@ -180,7 +195,7 @@ public final class Messages {
     }
 
     private TagResolver colour(String name, Logger logger) {
-        String hex = yaml.getString("theme." + name, "#FFFFFF");
+        String hex = text("theme." + name, "#FFFFFF");
         TextColor colour = TextColor.fromHexString(hex);
         if (colour == null) {
             logger.warning("messages.yml theme." + name + " is not a hex colour: " + hex);
