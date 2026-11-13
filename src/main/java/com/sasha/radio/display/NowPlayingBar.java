@@ -54,7 +54,10 @@ public final class NowPlayingBar {
         UUID host = sessions.hostOf(player.getUniqueId());
         Component source = host == null ? Component.empty()
                 : m.component("bar.source", Messages.arg("name", sessions.hostName(host)));
-        Component text = m.component(audible.isPaused() ? "bar.paused" : "bar.playing", TagResolver.resolver(
+        String key = mode == BarMode.BOSSBAR
+                ? (audible.isPaused() ? "bar.boss-paused" : "bar.boss-playing")
+                : (audible.isPaused() ? "bar.paused" : "bar.playing");
+        Component text = m.component(key, TagResolver.resolver(
                 Format.song(song),
                 Messages.arg("elapsed", Format.duration(playback.elapsedSeconds())),
                 Messages.arg("bar", m.progressBar(playback.progress())),
